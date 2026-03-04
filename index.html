@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MIKAELSON_VAULT_CAMILLE</title>
+<style>
+body, html { margin: 0; padding: 0; background: black; color: #00FF41; font-family: 'Courier New', monospace; overflow: hidden; height: 100vh; width: 100vw; }
+
+    /* FULL PAGE MATRIX BACKGROUND */
+    #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.8; pointer-events: none; }
+
+    /* SCREENS */
+    .overlay { 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.9); z-index: 9999; display: flex; flex-direction: column; 
+        justify-content: center; align-items: center; border: 10px solid #00FF41; box-sizing: border-box; 
+    }
+
+    /* THE LETTER STYLING */
+    #final-wish { 
+        position: relative; z-index: 10; height: 100vh; width: 100vw; 
+        display: none; flex-direction: column; align-items: center; justify-content: center;
+        overflow-y: auto; padding: 40px; box-sizing: border-box;
+    }
+    .letter-box { 
+        border: 1px solid #00FF41; padding: 40px; background: rgba(0, 15, 0, 0.85); 
+        max-width: 700px; box-shadow: 0 0 40px #00FF41; border-radius: 5px;
+        z-index: 5;
+    }
+
+    h1, h2 { text-shadow: 0 0 15px #00FF41; text-transform: uppercase; }
+    .letter-text { 
+        font-size: 1.1rem; line-height: 1.8; color: #00FF41; text-align: left; 
+        text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+    }
+
+    input { background: rgba(0,0,0,0.7); border: 1px solid #00FF41; color: #00FF41; padding: 15px; font-family: monospace; outline: none; width: 320px; text-align: center; font-size: 1.2rem; box-shadow: 0 0 10px #00FF41; }
+    button { background: #00FF41; color: black; border: none; padding: 12px 35px; cursor: pointer; font-weight: bold; text-transform: uppercase; margin-top: 25px; transition: 0.3s; }
+    button:hover { background: #fff; box-shadow: 0 0 20px #00FF41; }
+    .error { color: #ff0000; margin-top: 15px; font-weight: bold; height: 20px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<canvas id="matrix-bg"></canvas>
+
+<div id="stage1" class="overlay">
+    <h1>SYSTEM ENCRYPTED</h1>
+    <p>IDENTIFY YOURSELF</p>
+    <input type="password" id="pass1" autocomplete="off" autofocus>
+    <button onclick="checkStage1()">VERIFY</button>
+    <div id="err1" class="error"></div>
+</div>
+
+<div id="stage2" class="overlay" style="display: none;">
+    <h1 style="color: #ff0000; text-shadow: 0 0 15px #ff0000; border-color: #ff0000;">ENCRYPTION LEVEL II</h1>
+    <p>WHO HOLDS THE KEY TO THIS HEART?</p>
+    <input type="password" id="pass2" autocomplete="off" style="border-color: #ff0000; color: #ff0000;">
+    <button onclick="checkStage2()" style="background: #ff0000;">DECRYPT</button>
+    <div id="err2" class="error"></div>
+</div>
+
+<div id="final-wish">
+    <div class="letter-box">
+        <h1 style="text-align: center;">Always and Forever</h1>
+        <h2 style="text-align: center; font-size: 1rem;">May 2nd, 2026</h2>
+        <hr style="border: 0; border-top: 1px solid #00FF41; margin: 25px 0;">
+        
+        <div class="letter-text">
+            My Dearest Camille,<br><br>
+            They say that time is the greatest enemy of an Original. We watch centuries pass like shadows on a wall, and the world becomes a blur of faces we eventually forget. But then there is you. You are the one constant in my chaotic existence, the only soul that makes a thousand years feel like they weren't enough.<br><br>
+            Today isn't just a date on a calendar; it is a celebration of the light you brought into my darkness. You have a way of seeing the man behind the monster, the heart behind the hybrid. You are my peace, my queen, and my home. As this digital rain falls, let it represent every moment I've spent admiring your strength and your beauty.<br><br>
+            I promise to protect you, to cherish you, and to stand by you through every storm that New Orleans or this world dares to throw at us. May your day be as magnificent as you are, filled with the love that I hold for you—a love that is truly immortal.<br><br>
+            Happy Birthday, Camille. My heart is yours, today and for all eternity.
+            <br><br>
+            Yours, Always and Forever,<br>
+            <strong>Klaus</strong>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- THE RAIN ENGINE ---
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    
+    function initMatrix() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.onresize = initMatrix;
+    initMatrix();
+
+    const chars = "アァカサタナハマヤャラワガザダバパイィゥェォッャュョ0123456789";
+    const fontSize = 18;
+    let columns = canvas.width / fontSize;
+    let drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0F0';
+        ctx.font = fontSize + 'px monospace';
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(drawMatrix, 40);
+
+    // --- AUTHENTICATION ---
+    function checkStage1() {
+        const p1 = document.getElementById('pass1').value.toUpperCase().trim();
+        if (p1 === "KLAUS") {
+            document.getElementById('stage1').style.display = 'none';
+            document.getElementById('stage2').style.display = 'flex';
+            document.getElementById('pass2').focus();
+        } else {
+            document.getElementById('err1').innerText = "UNAUTHORIZED ACCESS";
+            document.getElementById('pass1').value = "";
+        }
+    }
+
+    function checkStage2() {
+        const p2 = document.getElementById('pass2').value.toUpperCase().trim();
+        if (p2 === "CAMILLE") {
+            document.getElementById('stage2').style.display = 'none';
+            document.getElementById('final-wish').style.display = 'flex';
+        } else {
+            document.getElementById('err2').innerText = "ENCRYPTION ERROR";
+            document.getElementById('pass2').value = "";
+        }
+    }
+
+    // Enter Keys
+    document.getElementById('pass1').onkeydown = (e) => { if(e.key === 'Enter') checkStage1(); };
+    document.getElementById('pass2').onkeydown = (e) => { if(e.key === 'Enter') checkStage2(); };
+</script>
+</body>
+</html>
